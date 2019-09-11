@@ -1,27 +1,75 @@
-# In this file, classes for handling calculated Vector Network
-# Analyzer Spectra is defined
+'''
+Definition of class for spectra for two magnetically coupled
+antennas (reader-transponder), and where that of the transponder 
+is connected to a (sensor) resistor and capacitor in parallel
+'''
 
 from numpy import pi, real, imag
 
 
 class calculatedCoupledAntennasSpectrum:
-    """Definition of a class used to handle instances
+    ''' Definition of a class used to handle instances
     refering to a single antenna (R1, L1, C1) magnetically
     coupled (k) to another antenna (R2, L2, C2) connected
     in parallelel with an additional resistor (Rsensor)
-    and a capacitor (Csensor). For future implementations,
-    a variable for a resistor, R0, in series with the first
-    antenna is also defined"""
+    and a capacitor (Csensor). 
+    For future implementations, a variable for a resistor, R0,
+    in series with the reader antenna is also defined.
+    
+    Attributes:
+        __Freq
+        __R0
+        __R1
+        __L1
+        __C1
+        __R2
+        __L2
+        __C2
+        __Rsensor
+        __Csensor
+        __k
+        __Zeq
+        __S11
+        
+    Methods:
+        __init__(frequency, R0, R1, L1, C1, R2, L2, C2, Rsensor, Csensor, k)
+        calculateImpedanceCoupledAntennas()
+        calculateS11()
+        **** Methods for setting attribute values ****
+        setR0()
+        setR1()
+        setL1()
+        setC1()
+        setk()
+        setR2()
+        setL2()
+        setC2()
+        setRsensor()
+        setCsensor()
+        **** Methods for retrieving attribute values ***
+        getFreq()
+        getR0()
+        getR1()
+        getL1()
+        getC1()
+        getk()
+        getR2()
+        getL2()
+        getC2()
+        getRsensor()
+        getCsensor()
+        getReZ()
+        getImZ()
+        getReS11()
+        getImS11()
+        getModS11()
+    '''
 
     def __init__(
             self, frequency, R0, R1, L1, C1, R2, L2, C2, Rsensor, Csensor, k):
-        # Initialization of (private) variables from values provided
-        # in the GUI singleAntennaAnalysis
-        # frequency: array, provided in MHz
-        # R0, R1: see above
-        # F0: resonance for the antenna
-        # Q: quality factor for the antenna
-        # Both filename and expdata are stored as private variables
+        '''Initialization of (private) variables from values provided
+        in the GUI coupledAntennasAnalysis
+        '''
         self.__Freq = frequency
         self.__R0 = R0
         self.__R1 = R1
@@ -33,7 +81,7 @@ class calculatedCoupledAntennasSpectrum:
         self.__Rsensor = Rsensor
         self.__Csensor = Csensor
         self.__k = k
-        # Caluclation of equivalent (and normalized)
+        # Caluclation of equivalent (NOT normalized)
         # real and imaginary impedances
         self.calculateImpedanceCoupledAntennas()
         self.calculateS11()
@@ -102,7 +150,7 @@ class calculatedCoupledAntennasSpectrum:
         self.__C2 = C2
 
     def setRsensor(self, Rsensor):
-        self.__Csensor = Rsensor
+        self.__Rsensor = Rsensor
 
     def setCsensor(self, Csensor):
         self.__Csensor = Csensor
