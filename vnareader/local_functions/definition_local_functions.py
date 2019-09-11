@@ -1,14 +1,21 @@
 from numpy import pi, r_, real, imag
 
 
-def FittingFunctionImpedanceSingleAntenna(R0, R1, F0, Q, f):
-    fr = f / F0
-    ReZ = R0 + R1 * Q**2 * (1 - (1/fr) * (fr - 1 / fr)) /\
-          (1 + (Q * (fr - 1 / fr))**2)
-    ImZ = - R1 * (Q**3 * (fr - 1 / fr) + Q / fr) / (1 + (Q * (fr - 1 / fr))**2)
-    Zeq = ReZ + 1j * ImZ
-    return Zeq
+def functionReZSingleAntenna(R0, R1, F0, Q, F):
+    '''
+    Calculates the Real (normalized over 50 Ohm) impedance
+    of a single (R1+L1)||C1 antenna
+    '''
+    FN = F / F0
+    return R0 + R1 *Q**2 * (1 - 1 / FN) *( FN - 1/ FN) / (1 + (Q * (FN - 1 / FN))**2)
 
+def functionImZSingleAntenna(R0, R1, F0, Q, F):
+    '''
+    Calculates the Imaginary (normalized over 50 Ohm) impedance
+    of a single (R1+L1)||C1 antenna
+    '''
+    FN = F / F0
+    return -R1 * ( Q**3 * (FN - 1 / FN) + Q/FN) / ( 1 + (Q * (FN - 1 / FN))**2)
 
 def residualFittingSingleAntenna(params, x, y1, y2):
     resid = r_[functionReZSingleAntenna(
@@ -18,27 +25,6 @@ def residualFittingSingleAntenna(params, x, y1, y2):
                    params['R0'].value, params['R1'].value,
                    params['F0'].value, params['Q'].value, x) - y2]
     return resid
-
-functionReZSingleAntenna = lambda R0, R1, F0, Q, F: R0+R1*Q**2*(1-F0/F)*(F/F0-F0/F)/(1+(Q*(F/F0-F0/F))**2)
-functionImZSingleAntenna = lambda R0, R1, F0, Q, F: -R1*(Q**3*(F/F0-F0/F)+Q*F0/F)/(1+(Q*(F/F0-F0/F))**2)
-
-
-def residualFittingCoupledAntennas(params, f, y1, y2):
-    resid = r_[real(FittingFunctionImpedanceCoupledAntennas(
-                   params['R0'].value, params['R1'].value,
-                   params['L1'].value, params['C1'].value,
-                   params['R2'].value, params['L2'].value,
-                   params['C2'].value, params['Rsensor'].value,
-                   params['Csensor'].value, params['k'].value, f)) - y1,
-               imag(FittingFunctionImpedanceCoupledAntennas(
-                   params['R0'].value, params['R1'].value,
-                   params['L1'].value, params['C1'].value,
-                   params['R2'].value, params['L2'].value,
-                   params['C2'].value, params['Rsensor'].value,
-                   params['Csensor'].value, params['k'].value, f)) - y2
-               ]
-    return resid
-
 
 def FittingFunctionImpedanceCoupledAntennas(R0, R1, L1,
                                             C1, R2, L2, C2,
@@ -57,6 +43,21 @@ def FittingFunctionImpedanceCoupledAntennas(R0, R1, L1,
     Zeq = ZC1 * (Zreflected + ZR1) / (ZC1 + Zreflected + ZR1)
     return Zeq
 
+def residualFittingCoupledAntennas(params, f, y1, y2):
+    resid = r_[real(FittingFunctionImpedanceCoupledAntennas(
+                   params['R0'].value, params['R1'].value,
+                   params['L1'].value, params['C1'].value,
+                   params['R2'].value, params['L2'].value,
+                   params['C2'].value, params['Rsensor'].value,
+                   params['Csensor'].value, params['k'].value, f)) - y1,
+               imag(FittingFunctionImpedanceCoupledAntennas(
+                   params['R0'].value, params['R1'].value,
+                   params['L1'].value, params['C1'].value,
+                   params['R2'].value, params['L2'].value,
+                   params['C2'].value, params['Rsensor'].value,
+                   params['Csensor'].value, params['k'].value, f)) - y2
+               ]
+    return resid
 
 def CalculateS11(Zeq):
     S11 = (50 - Zeq) / (50 + Zeq)
