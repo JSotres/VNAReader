@@ -1,5 +1,5 @@
 """
-Definition of class to create the single antenna analysis GUI
+Definition of class to create the coupled antennas analysis GUI
 from the Qt5 created template from coupledAntennasAnalysisWindow_v0
 """
 
@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import QMainWindow
 from matplotlib.backends.backend_qt5agg import (
     NavigationToolbar2QT as NavigationToolbar)
 from lmfit import minimize, Parameters
+# local imports
 from ..qt5_ui_files.coupledAntennasAnalysisWindow_v0 import (
         Ui_MainAnalysisCoupledAntennasWindow)
 from .definition_class_coupled_antennas_spectrum import calculatedCoupledAntennasSpectrum
@@ -14,12 +15,47 @@ from ..local_functions.definition_local_functions import residualFittingCoupledA
 
 
 class myCoupledAntennasGUI(QMainWindow):
+    ''' class for coupled antennas analysis GUIs
+    
+    Attributes:
+        ui
+        slidersResolution
+        spectrum
+        fittedSpectrum
+    
+    Methods:
+        __init__()
+        doFitData()
+        updateSliderBarR0()
+        updateSliderBarR1()
+        updateSliderBarL1()
+        updateSliderBarC1()
+        updateSliderBark()
+        updateSliderBarL2()
+        updateSliderBarC2()
+        updateSliderBarR2()
+        updateSliderBarRsensor()
+        updateSliderBarCsensor()
+        updateValueR0()
+        updateValueR1()
+        updateValueL1()
+        updateValueC1()
+        updateValuek()
+        updateValueR2()
+        updateValueL2()
+        updateValueC2()
+        updateValueRsensor()
+        updateValueCsensor()
+        update_graph()
+
+    '''
     def __init__(self, spectrum):
+        # Initializes GUI
         super().__init__()
         self.ui = Ui_MainAnalysisCoupledAntennasWindow()
         self.ui.setupUi(self)
         self.addToolBar(NavigationToolbar(self.ui.MplWidget4.canvas, self))
-        
+        # set up actions for GUI widgets
         self.slidersResolution = self.ui.horizontalSliderR0.maximum()
         self.ui.horizontalSliderR0.sliderMoved.connect(self.updateValueR0)
         self.ui.horizontalSliderR1.sliderMoved.connect(self.updateValueR1)
@@ -70,6 +106,7 @@ class myCoupledAntennasGUI(QMainWindow):
         self.ui.lineEditMinCsensor.returnPressed.connect(
             self.updateSliderBarCsensor)
         self.ui.pushButtonFit.clicked.connect(self.doFitData)
+        # Initializes attributes
         self.spectrum = spectrum
         self.fittedSpectrum = calculatedCoupledAntennasSpectrum(
             self.spectrum.getFreq(),
@@ -223,10 +260,8 @@ class myCoupledAntennasGUI(QMainWindow):
             params['R0'].vary = False
         if self.ui.radioButtonFitR1.isChecked():
             params['R1'].vary = True
-            print('R1 True')
         else:
             params['R1'].vary = False
-            print('R1 False')
         if self.ui.radioButtonFitL1.isChecked():
             params['L1'].vary = True
         else:
@@ -237,10 +272,8 @@ class myCoupledAntennasGUI(QMainWindow):
             params['C1'].vary = False
         if self.ui.radioButtonFitk.isChecked():
             params['k'].vary = True
-            print('k True')
         else:
             params['k'].vary = False
-            print('k False')
         if self.ui.radioButtonFitR2.isChecked():
             params['R2'].vary = True
         else:
