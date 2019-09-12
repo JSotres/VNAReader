@@ -11,8 +11,9 @@ def functionReZSingleAntenna(R0, R1, F0, Q, F):
     of a single (R1+L1)||C1 antenna
     '''
     FN = F / F0
-    return R0 + R1 *Q**2 * (1 - 1 / FN) *( FN - 1/ FN) / (
+    return R0 + R1 * Q**2 * (1 - 1 / FN) * (FN - 1 / FN) / (
             1 + (Q * (FN - 1 / FN))**2)
+
 
 def functionImZSingleAntenna(R0, R1, F0, Q, F):
     '''
@@ -20,13 +21,14 @@ def functionImZSingleAntenna(R0, R1, F0, Q, F):
     of a single (R1+L1)||C1 antenna
     '''
     FN = F / F0
-    return -R1 * ( Q**3 * (FN - 1 / FN) + Q/FN) / (
+    return -R1 * (Q**3 * (FN - 1 / FN) + Q / FN) / (
             1 + (Q * (FN - 1 / FN))**2)
+
 
 def residualFittingSingleAntenna(params, x, y1, y2):
     '''
-    Calculates residues between experimental real (y1) and imaginary (y2) 
-    impedance (not normalized) over a range of frequencies (x) and 
+    Calculates residues between experimental real (y1) and imaginary (y2)
+    impedance (not normalized) over a range of frequencies (x) and
     theoretical data calculated with the functions functionReZSingleAntenna
     and functionImZSingleAntenna assuming the parameters provided in params
     '''
@@ -37,6 +39,7 @@ def residualFittingSingleAntenna(params, x, y1, y2):
                    params['R0'].value, params['R1'].value,
                    params['F0'].value, params['Q'].value, x) - y2]
     return resid
+
 
 def FittingFunctionImpedanceCoupledAntennas(R0, R1, L1,
                                             C1, R2, L2, C2,
@@ -62,6 +65,7 @@ def FittingFunctionImpedanceCoupledAntennas(R0, R1, L1,
     Zeq = ZC1 * (Zreflected + ZR1) / (ZC1 + Zreflected + ZR1)
     return Zeq
 
+
 def residualFittingCoupledAntennas(params, f, y1, y2):
     '''
     Calculates residues between  experimental real (y1) and
@@ -85,6 +89,43 @@ def residualFittingCoupledAntennas(params, f, y1, y2):
                ]
     return resid
 
-def CalculateS11(Zeq):
+
+def residualFittingCoupledAntennas2(params, f1, rez1, imz1, f2, rez2, imz2):
+    '''
+    Calculates residues between  experimental real (y1) and
+    imaginary (y2) impedance (not normalized) over a range of
+    frequencies (f) and theoretical data calculated with the
+    function FittingFunctionImpedanceCoupledAntennas assuming
+    the parameters provided in params
+    '''
+    resid = r_[real(FittingFunctionImpedanceCoupledAntennas(
+                   params['R0'].value, params['R1'].value,
+                   params['L1'].value, params['C1'].value,
+                   params['R2'].value, params['L2'].value,
+                   params['C2'].value, params['Rsensor'].value,
+                   params['Csensor'].value, params['k'].value, f1)) - rez1,
+               imag(FittingFunctionImpedanceCoupledAntennas(
+                   params['R0'].value, params['R1'].value,
+                   params['L1'].value, params['C1'].value,
+                   params['R2'].value, params['L2'].value,
+                   params['C2'].value, params['Rsensor'].value,
+                   params['Csensor'].value, params['k'].value, f1)) - imz1,
+               real(FittingFunctionImpedanceCoupledAntennas(
+                   params['R0'].value, params['R1'].value,
+                   params['L1'].value, params['C1'].value,
+                   params['R2'].value, params['L2'].value,
+                   params['C2'].value, params['Rsensor'].value,
+                   params['Csensor'].value, params['k'].value, f2)) - rez2,
+               real(FittingFunctionImpedanceCoupledAntennas(
+                   params['R0'].value, params['R1'].value,
+                   params['L1'].value, params['C1'].value,
+                   params['R2'].value, params['L2'].value,
+                   params['C2'].value, params['Rsensor'].value,
+                   params['Csensor'].value, params['k'].value, f2)) - imz2
+               ]
+    return resid
+
+
+def CalculateS11VNAReaderv1(Zeq):
     S11 = (50 - Zeq) / (50 + Zeq)
     return S11

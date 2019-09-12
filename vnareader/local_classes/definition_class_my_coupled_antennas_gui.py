@@ -6,23 +6,26 @@ from the Qt5 created template from coupledAntennasAnalysisWindow_v0
 from PyQt5.QtWidgets import QMainWindow
 from matplotlib.backends.backend_qt5agg import (
     NavigationToolbar2QT as NavigationToolbar)
+from numpy import abs
 from lmfit import minimize, Parameters
 # local imports
 from ..qt5_ui_files.coupledAntennasAnalysisWindow_v0 import (
         Ui_MainAnalysisCoupledAntennasWindow)
-from .definition_class_coupled_antennas_spectrum import calculatedCoupledAntennasSpectrum
-from ..local_functions.definition_local_functions import residualFittingCoupledAntennas
+from .definition_class_coupled_antennas_spectrum import (
+    calculatedCoupledAntennasSpectrum)
+from ..local_functions.definition_local_functions import (
+    residualFittingCoupledAntennas, residualFittingCoupledAntennas2)
 
 
 class myCoupledAntennasGUI(QMainWindow):
     ''' class for coupled antennas analysis GUIs
-    
+
     Attributes:
         ui
         slidersResolution
         spectrum
         fittedSpectrum
-    
+
     Methods:
         __init__()
         doFitData()
@@ -135,7 +138,10 @@ class myCoupledAntennasGUI(QMainWindow):
         # Plot experimental and fitted data
         self.update_graph()
 
-    # --------- Methods for updating slide bar positions --------
+    #############################################################
+    #       Methods for updating slide bar positions
+    #############################################################
+
     def updateSliderBarR0(self):
         self.ui.horizontalSliderR0.setValue(
             (float(self.ui.lineEditValueR0.text()) -
@@ -171,7 +177,7 @@ class myCoupledAntennasGUI(QMainWindow):
     def updateSliderBark(self):
         self.ui.horizontalSliderk.setValue(
             (float(self.ui.lineEditValuek.text()) -
-             float(self.ui.lineEditMink.text())) *
+             float(self.ui.lineEditMink.text())) * 
             self.slidersResolution /
             (float(self.ui.lineEditMaxk.text()) -
              float(self.ui.lineEditMink.text())))
@@ -215,6 +221,10 @@ class myCoupledAntennasGUI(QMainWindow):
             self.slidersResolution /
             (float(self.ui.lineEditMaxCsensor.text()) -
              float(self.ui.lineEditMinCsensor.text())))
+
+    #############################################################
+    #      Data Fitting
+    #############################################################
 
     def doFitData(self):
         '''Fitting of experimental impedance data to
@@ -296,13 +306,41 @@ class myCoupledAntennasGUI(QMainWindow):
             params['Csensor'].vary = False
 
         # perform the actual fit
-        result = minimize(
-            residualFittingCoupledAntennas, params,
-            method='powell',
-            args=(self.spectrum.getFreq(), self.spectrum.getReZ()*50,
-                  self.spectrum.getImZ()*50
+        if self.ui.radioButton2RegionsFit.isChecked():
+            # If the 2 regions fit radio button is checked:
+            # Read the vaues of the initial and final frequencies
+            # for the 2 regions provided in the corresponding
+            # line edit widgets
+            print('here')
+            f1min = float(self.ui.lineEditF1Min.text())
+            f1max = float(self.ui.lineEditF1Max.text())
+            f2min = float(self.ui.lineEditF2Min.text())
+            f2max = float(self.ui.lineEditF2Max.text())
+            # Find the indexes of the frequency array of the components
+            # with closer values to those provided
+            index_f1min = (abs(self.spectrum.getFreq() - f1min)).argmin()
+            index_f1max = (abs(self.spectrum.getFreq() - f1max)).argmin()
+            index_f2min = (abs(self.spectrum.getFreq() - f2min)).argmin()
+            index_f2max = (abs(self.spectrum.getFreq() - f2max)).argmin()
+            # create arrays corresponding to the two selected regions
+            f1 = self.spectrum.getFreq()[index_f1min:index_f1max]
+            ReZ1 = self.spectrum.getReZ()[index_f1min: index_f1max]*50
+            ImZ1 = self.spectrum.getImZ()[index_f1min: index_f1max]*50
+            f2 = self.spectrum.getFreq()[index_f2min: index_f2max]
+            ReZ2 = self.spectrum.getReZ()[index_f2min: index_f2max]*50
+            ImZ2 = self.spectrum.getImZ()[index_f2min: index_f2max]*50
+            # call the minimize lmfit method
+            result = minimize(residualFittingCoupledAntennas2, params,
+                              method='leastsq',
+                              args=(f1, ReZ1, ImZ1, f2, ReZ2, ImZ2))
+        else:
+            result = minimize(
+                residualFittingCoupledAntennas, params,
+                method='leastsq',
+                args=(self.spectrum.getFreq(), self.spectrum.getReZ()*50,
+                      self.spectrum.getImZ()*50
+                      )
             )
-        )
 
         # Update parameters with those found in the fit
         self.fittedSpectrum.setR0(result.params['R0'].value)
