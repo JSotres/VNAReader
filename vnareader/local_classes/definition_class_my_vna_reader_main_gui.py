@@ -16,7 +16,7 @@ from .definition_class_vna_spectrum import vnaSpectrum
 class vnaReaderMainGUI(QMainWindow):
     '''
     Class for creating the main GUI of the program
-    
+
     Attributes:
         ui: handle to the graphical interface
         spectrum: list of objects from class vnaSpectrum, one corresponding to
@@ -39,7 +39,7 @@ class vnaReaderMainGUI(QMainWindow):
             mySingleAntennaGUI opened from Analysis menu
         coupledAntennasWindow: handle to objects (GUIs) from the class
             myCoupledAntennasGUI opened from Analysis menu
-        
+
     Methods:
         __init__(): Initiates the GUI; Initiatiates attributes ui,
             RepresentationIndex, YLabels and CurrentFigure
@@ -49,7 +49,7 @@ class vnaReaderMainGUI(QMainWindow):
             visualized data in terms of the equivalent circuit for a
             single antenna
         openCoupledAntennasWindow(): Opens a new GUI for analysis of the
-            visualized data in terms of the equivalent circuit of two 
+            visualized data in terms of the equivalent circuit of two
             magnetically coupled antennas
         changeCurrentFigure(): Changes the handles to the figure (0 or 1)
             on which actions will be applied
@@ -144,12 +144,12 @@ class vnaReaderMainGUI(QMainWindow):
         antennas
         '''
         self.coupledAntennasWindow = myCoupledAntennasGUI(
-            self.spectrum[self.currentFileIndex])
+            self.spectrum[:], self.currentFileIndex, self.numberOfFiles)
         self.coupledAntennasWindow.show()
 
     def changeCurrentFigure(self):
         '''
-        Changes the handles to the figure (0 or 1) on which actions will 
+        Changes the handles to the figure (0 or 1) on which actions will
         be applied
         '''
         self.CurrentFigure = self.ui.comboBoxCurrentFigure.currentIndex()
@@ -244,7 +244,7 @@ class vnaReaderMainGUI(QMainWindow):
     def doNextFile(self):
         '''
         Visualization of data corresponding to next file
-        '''        
+        '''
         if self.currentFileIndex < self.numberOfFiles-1:
             self.currentFileIndex += 1
             self.update_graph(

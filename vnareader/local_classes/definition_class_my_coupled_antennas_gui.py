@@ -24,6 +24,8 @@ class myCoupledAntennasGUI(QMainWindow):
         ui
         slidersResolution
         spectrum
+        currentFileIndex
+        numberOfFiles
         fittedSpectrum
 
     Methods:
@@ -50,9 +52,11 @@ class myCoupledAntennasGUI(QMainWindow):
         updateValueRsensor()
         updateValueCsensor()
         update_graph()
+        doPreviousFile
+        doNextFile
 
     '''
-    def __init__(self, spectrum):
+    def __init__(self, spectrum, current_file_index, number_of_files):
         # Initializes GUI
         super().__init__()
         self.ui = Ui_MainAnalysisCoupledAntennasWindow()
@@ -109,21 +113,28 @@ class myCoupledAntennasGUI(QMainWindow):
         self.ui.lineEditMinCsensor.returnPressed.connect(
             self.updateSliderBarCsensor)
         self.ui.pushButtonFit.clicked.connect(self.doFitData)
+        self.ui.pushButtonPreviousFile.clicked.connect(self.doPreviousFile)
+        self.ui.pushButtonNextFile.clicked.connect(self.doNextFile)
         # Initializes attributes
         self.spectrum = spectrum
-        self.fittedSpectrum = calculatedCoupledAntennasSpectrum(
-            self.spectrum.getFreq(),
-            float(self.ui.lineEditValueR0.text()),
-            float(self.ui.lineEditValueR1.text()),
-            float(self.ui.lineEditValueL1.text()),
-            float(self.ui.lineEditValueC1.text()),
-            float(self.ui.lineEditValueR2.text()),
-            float(self.ui.lineEditValueL2.text()),
-            float(self.ui.lineEditValueC2.text()),
-            float(self.ui.lineEditValueRsensor.text()),
-            float(self.ui.lineEditValueCsensor.text()),
-            float(self.ui.lineEditValuek.text())
-        )
+        self. currentFileIndex = current_file_index
+        self.numberOfFiles = number_of_files
+        self.fittedSpectrum = []
+        for i in range(self.numberOfFiles):
+            self.fittedSpectrum.append(calculatedCoupledAntennasSpectrum(
+                self.spectrum[i].getFreq(),
+                float(self.ui.lineEditValueR0.text()),
+                float(self.ui.lineEditValueR1.text()),
+                float(self.ui.lineEditValueL1.text()),
+                float(self.ui.lineEditValueC1.text()),
+                float(self.ui.lineEditValueR2.text()),
+                float(self.ui.lineEditValueL2.text()),
+                float(self.ui.lineEditValueC2.text()),
+                float(self.ui.lineEditValueRsensor.text()),
+                float(self.ui.lineEditValueCsensor.text()),
+                float(self.ui.lineEditValuek.text())
+                )
+            )
         # Update values of slide bars
         self.updateSliderBarR0()
         self.updateSliderBarR1()
@@ -137,6 +148,26 @@ class myCoupledAntennasGUI(QMainWindow):
         self.updateSliderBarCsensor()
         # Plot experimental and fitted data
         self.update_graph()
+
+    #############################################################
+    #       Methods for visualizing different data files
+    #############################################################
+
+    def doPreviousFile(self):
+        '''
+        Visualization of data corresponding to previous file
+        '''
+        if self.currentFileIndex > 0:
+            self.currentFileIndex -= 1
+            self.update_graph()
+
+    def doNextFile(self):
+        '''
+        Visualization of data corresponding to next file
+        '''
+        if self.currentFileIndex < self.numberOfFiles-1:
+            self.currentFileIndex += 1
+            self.update_graph()
 
     #############################################################
     #       Methods for updating slide bar positions
@@ -177,7 +208,7 @@ class myCoupledAntennasGUI(QMainWindow):
     def updateSliderBark(self):
         self.ui.horizontalSliderk.setValue(
             (float(self.ui.lineEditValuek.text()) -
-             float(self.ui.lineEditMink.text())) * 
+             float(self.ui.lineEditMink.text())) *
             self.slidersResolution /
             (float(self.ui.lineEditMaxk.text()) -
              float(self.ui.lineEditMink.text())))
@@ -311,24 +342,23 @@ class myCoupledAntennasGUI(QMainWindow):
             # Read the vaues of the initial and final frequencies
             # for the 2 regions provided in the corresponding
             # line edit widgets
-            print('here')
             f1min = float(self.ui.lineEditF1Min.text())
             f1max = float(self.ui.lineEditF1Max.text())
             f2min = float(self.ui.lineEditF2Min.text())
             f2max = float(self.ui.lineEditF2Max.text())
             # Find the indexes of the frequency array of the components
             # with closer values to those provided
-            index_f1min = (abs(self.spectrum.getFreq() - f1min)).argmin()
-            index_f1max = (abs(self.spectrum.getFreq() - f1max)).argmin()
-            index_f2min = (abs(self.spectrum.getFreq() - f2min)).argmin()
-            index_f2max = (abs(self.spectrum.getFreq() - f2max)).argmin()
+            index_f1min = (abs(self.spectrum[self.currentFileIndex].getFreq() - f1min)).argmin()
+            index_f1max = (abs(self.spectrum[self.currentFileIndex].getFreq() - f1max)).argmin()
+            index_f2min = (abs(self.spectrum[self.currentFileIndex].getFreq() - f2min)).argmin()
+            index_f2max = (abs(self.spectrum[self.currentFileIndex].getFreq() - f2max)).argmin()
             # create arrays corresponding to the two selected regions
-            f1 = self.spectrum.getFreq()[index_f1min:index_f1max]
-            ReZ1 = self.spectrum.getReZ()[index_f1min: index_f1max]*50
-            ImZ1 = self.spectrum.getImZ()[index_f1min: index_f1max]*50
-            f2 = self.spectrum.getFreq()[index_f2min: index_f2max]
-            ReZ2 = self.spectrum.getReZ()[index_f2min: index_f2max]*50
-            ImZ2 = self.spectrum.getImZ()[index_f2min: index_f2max]*50
+            f1 = self.spectrum[self.currentFileIndex].getFreq()[index_f1min:index_f1max]
+            ReZ1 = self.spectrum[self.currentFileIndex].getReZ()[index_f1min: index_f1max]*50
+            ImZ1 = self.spectrum[self.currentFileIndex].getImZ()[index_f1min: index_f1max]*50
+            f2 = self.spectrum[self.currentFileIndex].getFreq()[index_f2min: index_f2max]
+            ReZ2 = self.spectrum[self.currentFileIndex].getReZ()[index_f2min: index_f2max]*50
+            ImZ2 = self.spectrum[self.currentFileIndex].getImZ()[index_f2min: index_f2max]*50
             # call the minimize lmfit method
             result = minimize(residualFittingCoupledAntennas2, params,
                               method='leastsq',
@@ -337,25 +367,25 @@ class myCoupledAntennasGUI(QMainWindow):
             result = minimize(
                 residualFittingCoupledAntennas, params,
                 method='leastsq',
-                args=(self.spectrum.getFreq(), self.spectrum.getReZ()*50,
-                      self.spectrum.getImZ()*50
+                args=(self.spectrum[self.currentFileIndex].getFreq(), self.spectrum[self.currentFileIndex].getReZ()*50,
+                      self.spectrum[self.currentFileIndex].getImZ()*50
                       )
             )
 
         # Update parameters with those found in the fit
-        self.fittedSpectrum.setR0(result.params['R0'].value)
-        self.fittedSpectrum.setR1(result.params['R1'].value)
-        self.fittedSpectrum.setL1(result.params['L1'].value)
-        self.fittedSpectrum.setC1(result.params['C1'].value)
-        self.fittedSpectrum.setR2(result.params['R2'].value)
-        self.fittedSpectrum.setL2(result.params['L2'].value)
-        self.fittedSpectrum.setRsensor(result.params['Rsensor'].value)
-        self.fittedSpectrum.setCsensor(result.params['Csensor'].value)
-        self.fittedSpectrum.setk(result.params['k'].value)
+        self.fittedSpectrum[self.currentFileIndex].setR0(result.params['R0'].value)
+        self.fittedSpectrum[self.currentFileIndex].setR1(result.params['R1'].value)
+        self.fittedSpectrum[self.currentFileIndex].setL1(result.params['L1'].value)
+        self.fittedSpectrum[self.currentFileIndex].setC1(result.params['C1'].value)
+        self.fittedSpectrum[self.currentFileIndex].setR2(result.params['R2'].value)
+        self.fittedSpectrum[self.currentFileIndex].setL2(result.params['L2'].value)
+        self.fittedSpectrum[self.currentFileIndex].setRsensor(result.params['Rsensor'].value)
+        self.fittedSpectrum[self.currentFileIndex].setCsensor(result.params['Csensor'].value)
+        self.fittedSpectrum[self.currentFileIndex].setk(result.params['k'].value)
 
         # Recalculate impedance and S11 values from parameters foun in the fit
-        self.fittedSpectrum.calculateImpedanceCoupledAntennas()
-        self.fittedSpectrum.calculateS11()
+        self.fittedSpectrum[self.currentFileIndex].calculateImpedanceCoupledAntennas()
+        self.fittedSpectrum[self.currentFileIndex].calculateS11()
 
         # Update values of slide bars
         self.updateSliderBarR0()
@@ -374,140 +404,140 @@ class myCoupledAntennasGUI(QMainWindow):
 
         # Update fit parameter values in the GUI with those found in the fit
         self.ui.lineEditValueR0.setText(
-            "{0:0.2e}".format(self.fittedSpectrum.getR0()))
+            "{0:0.2e}".format(self.fittedSpectrum[self.currentFileIndex].getR0()))
         self.ui.lineEditValueR1.setText(
-            "{0:0.2e}".format(self.fittedSpectrum.getR1()))
+            "{0:0.2e}".format(self.fittedSpectrum[self.currentFileIndex].getR1()))
         self.ui.lineEditValueL1.setText(
-            "{0:0.2e}".format(self.fittedSpectrum.getL1()))
+            "{0:0.2e}".format(self.fittedSpectrum[self.currentFileIndex].getL1()))
         self.ui.lineEditValueC1.setText(
-            "{0:0.2e}".format(self.fittedSpectrum.getC1()))
+            "{0:0.2e}".format(self.fittedSpectrum[self.currentFileIndex].getC1()))
         self.ui.lineEditValueR2.setText(
-            "{0:0.2e}".format(self.fittedSpectrum.getR2()))
+            "{0:0.2e}".format(self.fittedSpectrum[self.currentFileIndex].getR2()))
         self.ui.lineEditValueL2.setText(
-            "{0:0.2e}".format(self.fittedSpectrum.getL2()))
+            "{0:0.2e}".format(self.fittedSpectrum[self.currentFileIndex].getL2()))
         self.ui.lineEditValueC2.setText(
-            "{0:0.2e}".format(self.fittedSpectrum.getC2()))
+            "{0:0.2e}".format(self.fittedSpectrum[self.currentFileIndex].getC2()))
         self.ui.lineEditValueRsensor.setText(
-            "{0:0.2e}".format(self.fittedSpectrum.getRsensor()))
+            "{0:0.2e}".format(self.fittedSpectrum[self.currentFileIndex].getRsensor()))
         self.ui.lineEditValueCsensor.setText(
-            "{0:0.2e}".format(self.fittedSpectrum.getCsensor()))
+            "{0:0.2e}".format(self.fittedSpectrum[self.currentFileIndex].getCsensor()))
         self.ui.lineEditValuek.setText(
-            "{0:0.2e}".format(self.fittedSpectrum.getk()))
+            "{0:0.2e}".format(self.fittedSpectrum[self.currentFileIndex].getk()))
 
     def updateValueR0(self, value):
-        self.fittedSpectrum.setR0(float(
+        self.fittedSpectrum[self.currentFileIndex].setR0(float(
             self.ui.lineEditMinR0.text()) + value * (
                 float(self.ui.lineEditMaxR0.text()) - float(
                     self.ui.lineEditMinR0.text())) / self.slidersResolution)
         self.ui.lineEditValueR0.setText(
-            "{0:0.2e}".format(self.fittedSpectrum.getR0()))
-        self.fittedSpectrum.calculateImpedanceCoupledAntennas()
-        self.fittedSpectrum.calculateS11()
+            "{0:0.2e}".format(self.fittedSpectrum[self.currentFileIndex].getR0()))
+        self.fittedSpectrum[self.currentFileIndex].calculateImpedanceCoupledAntennas()
+        self.fittedSpectrum[self.currentFileIndex].calculateS11()
         self.update_graph()
 
     def updateValueR1(self, value):
-        self.fittedSpectrum.setR1(float(
+        self.fittedSpectrum[self.currentFileIndex].setR1(float(
             self.ui.lineEditMinR1.text()) + value * (
                 float(self.ui.lineEditMaxR1.text()) - float(
                     self.ui.lineEditMinR1.text())) / self.slidersResolution)
         self.ui.lineEditValueR1.setText(
-            "{0:0.2e}".format(self.fittedSpectrum.getR1()))
-        self.fittedSpectrum.calculateImpedanceCoupledAntennas()
-        self.fittedSpectrum.calculateS11()
+            "{0:0.2e}".format(self.fittedSpectrum[self.currentFileIndex].getR1()))
+        self.fittedSpectrum[self.currentFileIndex].calculateImpedanceCoupledAntennas()
+        self.fittedSpectrum[self.currentFileIndex].calculateS11()
         self.update_graph()
 
     def updateValueL1(self, value):
-        self.fittedSpectrum.setL1(float(
+        self.fittedSpectrum[self.currentFileIndex].setL1(float(
             self.ui.lineEditMinL1.text()) + value * (
                 float(self.ui.lineEditMaxL1.text()) - float(
                     self.ui.lineEditMinL1.text())) / self.slidersResolution)
         self.ui.lineEditValueL1.setText(
-            "{0:0.2e}".format(self.fittedSpectrum.getL1()))
-        self.fittedSpectrum.calculateImpedanceCoupledAntennas()
-        self.fittedSpectrum.calculateS11()
+            "{0:0.2e}".format(self.fittedSpectrum[self.currentFileIndex].getL1()))
+        self.fittedSpectrum[self.currentFileIndex].calculateImpedanceCoupledAntennas()
+        self.fittedSpectrum[self.currentFileIndex].calculateS11()
         self.update_graph()
 
     def updateValueC1(self, value):
-        self.fittedSpectrum.setC1(float(
+        self.fittedSpectrum[self.currentFileIndex].setC1(float(
             self.ui.lineEditMinC1.text()) + value * (
                 float(self.ui.lineEditMaxC1.text()) - float(
                     self.ui.lineEditMinC1.text())) / self.slidersResolution)
         self.ui.lineEditValueC1.setText(
-            "{0:0.2e}".format(self.fittedSpectrum.getC1()))
-        self.fittedSpectrum.calculateImpedanceCoupledAntennas()
-        self.fittedSpectrum.calculateS11()
+            "{0:0.2e}".format(self.fittedSpectrum[self.currentFileIndex].getC1()))
+        self.fittedSpectrum[self.currentFileIndex].calculateImpedanceCoupledAntennas()
+        self.fittedSpectrum[self.currentFileIndex].calculateS11()
         self.update_graph()
 
     def updateValueR2(self, value):
-        self.fittedSpectrum.setR2(float(
+        self.fittedSpectrum[self.currentFileIndex].setR2(float(
             self.ui.lineEditMinR2.text()) + value * (
                 float(self.ui.lineEditMaxR2.text()) - float(
                     self.ui.lineEditMinR2.text())) / self.slidersResolution)
         self.ui.lineEditValueR2.setText(
-            "{0:0.2e}".format(self.fittedSpectrum.getR2()))
-        self.fittedSpectrum.calculateImpedanceCoupledAntennas()
-        self.fittedSpectrum.calculateS11()
+            "{0:0.2e}".format(self.fittedSpectrum[self.currentFileIndex].getR2()))
+        self.fittedSpectrum[self.currentFileIndex].calculateImpedanceCoupledAntennas()
+        self.fittedSpectrum[self.currentFileIndex].calculateS11()
         self.update_graph()
 
     def updateValueL2(self, value):
-        self.fittedSpectrum.setL2(float(self.ui.lineEditMinL2.text()) + value * (
+        self.fittedSpectrum[self.currentFileIndex].setL2(float(self.ui.lineEditMinL2.text()) + value * (
             float(self.ui.lineEditMaxL2.text()) - float(
                 self.ui.lineEditMinL2.text())) / self.slidersResolution)
         self.ui.lineEditValueL2.setText(
-            "{0:0.2e}".format(self.fittedSpectrum.getL2()))
-        self.fittedSpectrum.calculateImpedanceCoupledAntennas()
-        self.fittedSpectrum.calculateS11()
+            "{0:0.2e}".format(self.fittedSpectrum[self.currentFileIndex].getL2()))
+        self.fittedSpectrum[self.currentFileIndex].calculateImpedanceCoupledAntennas()
+        self.fittedSpectrum[self.currentFileIndex].calculateS11()
         self.update_graph()
 
     def updateValueC2(self, value):
-        self.fittedSpectrum.setC2(float(
+        self.fittedSpectrum[self.currentFileIndex].setC2(float(
             self.ui.lineEditMinC2.text()) + value * (
                 float(self.ui.lineEditMaxC2.text()) - float(
                     self.ui.lineEditMinC2.text())) / self.slidersResolution)
         self.ui.lineEditValueC2.setText(
-            "{0:0.2e}".format(self.fittedSpectrum.getC2()))
-        self.fittedSpectrum.calculateImpedanceCoupledAntennas()
-        self.fittedSpectrum.calculateS11()
+            "{0:0.2e}".format(self.fittedSpectrum[self.currentFileIndex].getC2()))
+        self.fittedSpectrum[self.currentFileIndex].calculateImpedanceCoupledAntennas()
+        self.fittedSpectrum[self.currentFileIndex].calculateS11()
         self.update_graph()
 
     def updateValueRsensor(self, value):
-        self.fittedSpectrum.setRsensor(float(
+        self.fittedSpectrum[self.currentFileIndex].setRsensor(float(
             self.ui.lineEditMinRsensor.text()) + value * (
                 float(self.ui.lineEditMaxRsensor.text()) - float(
                     self.ui.lineEditMinRsensor.text())) / self.slidersResolution)
         self.ui.lineEditValueRsensor.setText(
-            "{0:0.2e}".format(self.fittedSpectrum.getRsensor()))
-        self.fittedSpectrum.calculateImpedanceCoupledAntennas()
-        self.fittedSpectrum.calculateS11()
+            "{0:0.2e}".format(self.fittedSpectrum[self.currentFileIndex].getRsensor()))
+        self.fittedSpectrum[self.currentFileIndex].calculateImpedanceCoupledAntennas()
+        self.fittedSpectrum[self.currentFileIndex].calculateS11()
         self.update_graph()
 
     def updateValueCsensor(self, value):
-        self.fittedSpectrum.setCsensor(float(
+        self.fittedSpectrum[self.currentFileIndex].setCsensor(float(
             self.ui.lineEditMinCsensor.text()) + value * (float(
                 self.ui.lineEditMaxCsensor.text()) - float(
                     self.ui.lineEditMinCsensor.text())) / self.slidersResolution)
         self.ui.lineEditValueCsensor.setText(
-            "{0:0.2e}".format(self.fittedSpectrum.getCsensor()))
-        self.fittedSpectrum.calculateImpedanceCoupledAntennas()
-        self.fittedSpectrum.calculateS11()
+            "{0:0.2e}".format(self.fittedSpectrum[self.currentFileIndex].getCsensor()))
+        self.fittedSpectrum[self.currentFileIndex].calculateImpedanceCoupledAntennas()
+        self.fittedSpectrum[self.currentFileIndex].calculateS11()
         self.update_graph()
 
     def updateValuek(self, value):
-        self.fittedSpectrum.setk(float(
+        self.fittedSpectrum[self.currentFileIndex].setk(float(
             self.ui.lineEditMink.text()) + value * (
                 float(self.ui.lineEditMaxk.text()) - float(
                     self.ui.lineEditMink.text())) / self.slidersResolution)
-        self.ui.lineEditValuek.setText("{0:0.2e}".format(self.fittedSpectrum.getk()))
-        self.fittedSpectrum.calculateImpedanceCoupledAntennas()
-        self.fittedSpectrum.calculateS11()
+        self.ui.lineEditValuek.setText("{0:0.2e}".format(self.fittedSpectrum[self.currentFileIndex].getk()))
+        self.fittedSpectrum[self.currentFileIndex].calculateImpedanceCoupledAntennas()
+        self.fittedSpectrum[self.currentFileIndex].calculateS11()
         self.update_graph()
 
     def update_graph(self):
         self.ui.MplWidget4.canvas.axes1.clear()
         self.ui.MplWidget4.canvas.axes1.plot(
-            self.spectrum.getFreq(), self.spectrum.getReZ()*50)
+            self.spectrum[self.currentFileIndex].getFreq(), self.spectrum[self.currentFileIndex].getReZ()*50)
         self.ui.MplWidget4.canvas.axes1.plot(
-            self.fittedSpectrum.getFreq(), self.fittedSpectrum.getReZ(), 'r--')
+            self.fittedSpectrum[self.currentFileIndex].getFreq(), self.fittedSpectrum[self.currentFileIndex].getReZ(), 'r--')
         self.ui.MplWidget4.canvas.axes1.set_ylabel("Re Z")
         self.ui.MplWidget4.canvas.axes1.set_xlabel("f (MHz)")
         self.ui.MplWidget4.canvas.axes1.set_xlim(
@@ -515,9 +545,9 @@ class myCoupledAntennasGUI(QMainWindow):
             float(self.ui.lineEditValueFmax.text()))
         self.ui.MplWidget4.canvas.axes2.clear()
         self.ui.MplWidget4.canvas.axes2.plot(
-            self.spectrum.getFreq(), self.spectrum.getImZ()*50)
+            self.spectrum[self.currentFileIndex].getFreq(), self.spectrum[self.currentFileIndex].getImZ()*50)
         self.ui.MplWidget4.canvas.axes2.plot(
-            self.fittedSpectrum.getFreq(), self.fittedSpectrum.getImZ(), 'r--')
+            self.fittedSpectrum[self.currentFileIndex].getFreq(), self.fittedSpectrum[self.currentFileIndex].getImZ(), 'r--')
         self.ui.MplWidget4.canvas.axes2.set_ylabel("Im Z")
         self.ui.MplWidget4.canvas.axes2.set_xlabel("f (MHz)")
         self.ui.MplWidget4.canvas.axes2.set_xlim(
@@ -525,9 +555,9 @@ class myCoupledAntennasGUI(QMainWindow):
             float(self.ui.lineEditValueFmax.text()))
         self.ui.MplWidget4.canvas.axes3.clear()
         self.ui.MplWidget4.canvas.axes3.plot(
-            self.spectrum.getFreq(), self.spectrum.getModS11())
+            self.spectrum[self.currentFileIndex].getFreq(), self.spectrum[self.currentFileIndex].getModS11())
         self.ui.MplWidget4.canvas.axes3.plot(
-            self.fittedSpectrum.getFreq(), self.fittedSpectrum.getModS11(), 'r--')
+            self.fittedSpectrum[self.currentFileIndex].getFreq(), self.fittedSpectrum[self.currentFileIndex].getModS11(), 'r--')
         self.ui.MplWidget4.canvas.axes3.set_ylabel("Mod S11")
         self.ui.MplWidget4.canvas.axes3.set_xlabel("f (MHz)")
         self.ui.MplWidget4.canvas.axes3.set_xlim(
@@ -535,9 +565,9 @@ class myCoupledAntennasGUI(QMainWindow):
             float(self.ui.lineEditValueFmax.text()))
         self.ui.MplWidget4.canvas.axes4.clear()
         self.ui.MplWidget4.canvas.axes4.plot(
-            self.spectrum.getReZ()*50, self.spectrum.getImZ()*50)
+            self.spectrum[self.currentFileIndex].getReZ()*50, self.spectrum[self.currentFileIndex].getImZ()*50)
         self.ui.MplWidget4.canvas.axes4.plot(
-            self.fittedSpectrum.getReZ(), self.fittedSpectrum.getImZ(), 'r--')
+            self.fittedSpectrum[self.currentFileIndex].getReZ(), self.fittedSpectrum[self.currentFileIndex].getImZ(), 'r--')
         self.ui.MplWidget4.canvas.axes4.set_ylabel("Im Z")
         self.ui.MplWidget4.canvas.axes4.set_xlabel("ReZ")
         self.ui.MplWidget4.canvas.figure.tight_layout()
