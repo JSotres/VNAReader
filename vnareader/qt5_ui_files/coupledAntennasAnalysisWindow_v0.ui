@@ -16,7 +16,7 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
-     <layout class="QHBoxLayout" name="horizontalLayout_20">
+     <layout class="QHBoxLayout" name="horizontalLayout_30">
       <item>
        <spacer name="horizontalSpacer_21">
         <property name="orientation">
@@ -398,7 +398,7 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_42">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_11">
+         <layout class="QHBoxLayout" name="horizontalLayout_24">
           <item>
            <spacer name="horizontalSpacer_2">
             <property name="orientation">
@@ -423,13 +423,13 @@
             <property name="title">
              <string>R0</string>
             </property>
-            <widget class="QWidget" name="layoutWidget">
+            <widget class="QWidget" name="">
              <property name="geometry">
               <rect>
-               <x>10</x>
-               <y>23</y>
+               <x>11</x>
+               <y>24</y>
                <width>172</width>
-               <height>98</height>
+               <height>97</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_40">
@@ -447,16 +447,45 @@
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="checkBoxFitR0">
-                <property name="font">
-                 <font>
-                  <pointsize>7</pointsize>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Fit</string>
-                </property>
-               </widget>
+               <layout class="QHBoxLayout" name="horizontalLayout_22">
+                <item>
+                 <widget class="QCheckBox" name="checkBoxFitR0">
+                  <property name="font">
+                   <font>
+                    <pointsize>7</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Fit</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_12">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButtonR0ToAll">
+                  <property name="font">
+                   <font>
+                    <pointsize>7</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Apply to All</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -610,16 +639,16 @@
             <property name="title">
              <string>R Antenna Reader (R1)</string>
             </property>
-            <widget class="QWidget" name="layoutWidget">
+            <widget class="QWidget" name="">
              <property name="geometry">
               <rect>
-               <x>10</x>
-               <y>23</y>
+               <x>11</x>
+               <y>24</y>
                <width>172</width>
-               <height>98</height>
+               <height>97</height>
               </rect>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_41">
+             <layout class="QVBoxLayout" name="verticalLayout_35">
               <item>
                <widget class="QSlider" name="horizontalSliderR1">
                 <property name="minimum">
@@ -634,16 +663,45 @@
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="checkBoxFitR1">
-                <property name="font">
-                 <font>
-                  <pointsize>7</pointsize>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Fit</string>
-                </property>
-               </widget>
+               <layout class="QHBoxLayout" name="horizontalLayout_23">
+                <item>
+                 <widget class="QCheckBox" name="checkBoxFitR1">
+                  <property name="font">
+                   <font>
+                    <pointsize>7</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Fit</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_13">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButtonR1ToAll">
+                  <property name="font">
+                   <font>
+                    <pointsize>7</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Apply to All</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -789,7 +847,7 @@
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_16">
+         <layout class="QHBoxLayout" name="horizontalLayout_25">
           <item>
            <spacer name="horizontalSpacer_14">
             <property name="orientation">
@@ -814,16 +872,16 @@
             <property name="title">
              <string>L Antenna Reader (L1)</string>
             </property>
-            <widget class="QWidget" name="layoutWidget">
+            <widget class="QWidget" name="">
              <property name="geometry">
               <rect>
-               <x>10</x>
-               <y>23</y>
+               <x>11</x>
+               <y>24</y>
                <width>172</width>
-               <height>98</height>
+               <height>97</height>
               </rect>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_35">
+             <layout class="QVBoxLayout" name="verticalLayout_34">
               <item>
                <widget class="QSlider" name="horizontalSliderL1">
                 <property name="minimum">
@@ -838,16 +896,45 @@
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="checkBoxFitL1">
-                <property name="font">
-                 <font>
-                  <pointsize>7</pointsize>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Fit</string>
-                </property>
-               </widget>
+               <layout class="QHBoxLayout" name="horizontalLayout_21">
+                <item>
+                 <widget class="QCheckBox" name="checkBoxFitL1">
+                  <property name="font">
+                   <font>
+                    <pointsize>7</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Fit</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_26">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButtonL1ToAll">
+                  <property name="font">
+                   <font>
+                    <pointsize>7</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Apply to All</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_15">
@@ -1001,16 +1088,16 @@
             <property name="title">
              <string>C Antenna Reader (C1)</string>
             </property>
-            <widget class="QWidget" name="layoutWidget">
+            <widget class="QWidget" name="">
              <property name="geometry">
               <rect>
-               <x>10</x>
-               <y>23</y>
+               <x>11</x>
+               <y>24</y>
                <width>172</width>
-               <height>98</height>
+               <height>97</height>
               </rect>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_34">
+             <layout class="QVBoxLayout" name="verticalLayout_29">
               <item>
                <widget class="QSlider" name="horizontalSliderC1">
                 <property name="minimum">
@@ -1025,16 +1112,45 @@
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="checkBoxFitC1">
-                <property name="font">
-                 <font>
-                  <pointsize>7</pointsize>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Fit</string>
-                </property>
-               </widget>
+               <layout class="QHBoxLayout" name="horizontalLayout_20">
+                <item>
+                 <widget class="QCheckBox" name="checkBoxFitC1">
+                  <property name="font">
+                   <font>
+                    <pointsize>7</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Fit</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_27">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButtonC1ToAll">
+                  <property name="font">
+                   <font>
+                    <pointsize>7</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Apply to All</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_10">
@@ -1180,7 +1296,7 @@
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_17">
+         <layout class="QHBoxLayout" name="horizontalLayout_29">
           <item>
            <spacer name="horizontalSpacer_23">
             <property name="orientation">
@@ -1205,16 +1321,16 @@
             <property name="title">
              <string>k (coupling factor)</string>
             </property>
-            <widget class="QWidget" name="layoutWidget">
+            <widget class="QWidget" name="">
              <property name="geometry">
               <rect>
-               <x>10</x>
-               <y>23</y>
+               <x>11</x>
+               <y>24</y>
                <width>172</width>
-               <height>98</height>
+               <height>97</height>
               </rect>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_28">
+             <layout class="QVBoxLayout" name="verticalLayout_41">
               <item>
                <widget class="QSlider" name="horizontalSliderk">
                 <property name="minimum">
@@ -1229,19 +1345,48 @@
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="checkBoxFitk">
-                <property name="font">
-                 <font>
-                  <pointsize>7</pointsize>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Fit</string>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
-                </property>
-               </widget>
+               <layout class="QHBoxLayout" name="horizontalLayout_26">
+                <item>
+                 <widget class="QCheckBox" name="checkBoxFitk">
+                  <property name="font">
+                   <font>
+                    <pointsize>7</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Fit</string>
+                  </property>
+                  <property name="checked">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_28">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButtonkToAll">
+                  <property name="font">
+                   <font>
+                    <pointsize>7</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Apply to All</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_9">
@@ -1395,16 +1540,16 @@
             <property name="title">
              <string>R Antenna Transponder (R2)</string>
             </property>
-            <widget class="QWidget" name="layoutWidget">
+            <widget class="QWidget" name="">
              <property name="geometry">
               <rect>
-               <x>10</x>
-               <y>23</y>
+               <x>11</x>
+               <y>24</y>
                <width>172</width>
-               <height>98</height>
+               <height>97</height>
               </rect>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_29">
+             <layout class="QVBoxLayout" name="verticalLayout_28">
               <item>
                <widget class="QSlider" name="horizontalSliderR2">
                 <property name="minimum">
@@ -1419,16 +1564,45 @@
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="checkBoxFitR2">
-                <property name="font">
-                 <font>
-                  <pointsize>7</pointsize>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Fit</string>
-                </property>
-               </widget>
+               <layout class="QHBoxLayout" name="horizontalLayout_17">
+                <item>
+                 <widget class="QCheckBox" name="checkBoxFitR2">
+                  <property name="font">
+                   <font>
+                    <pointsize>7</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Fit</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_29">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButtonR2ToAll">
+                  <property name="font">
+                   <font>
+                    <pointsize>7</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Apply to All</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_14">
@@ -1574,7 +1748,7 @@
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_7">
+         <layout class="QHBoxLayout" name="horizontalLayout_27">
           <item>
            <spacer name="horizontalSpacer_5">
             <property name="orientation">
@@ -1599,13 +1773,13 @@
             <property name="title">
              <string>L Antenna Transponder (L2)</string>
             </property>
-            <widget class="QWidget" name="layoutWidget">
+            <widget class="QWidget" name="">
              <property name="geometry">
               <rect>
-               <x>10</x>
-               <y>23</y>
+               <x>11</x>
+               <y>24</y>
                <width>172</width>
-               <height>98</height>
+               <height>97</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_20">
@@ -1623,16 +1797,45 @@
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="checkBoxFitL2">
-                <property name="font">
-                 <font>
-                  <pointsize>7</pointsize>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Fit</string>
-                </property>
-               </widget>
+               <layout class="QHBoxLayout" name="horizontalLayout_13">
+                <item>
+                 <widget class="QCheckBox" name="checkBoxFitL2">
+                  <property name="font">
+                   <font>
+                    <pointsize>7</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Fit</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_30">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButtonL2ToAll">
+                  <property name="font">
+                   <font>
+                    <pointsize>7</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Apply to All</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_5">
@@ -1786,13 +1989,13 @@
             <property name="title">
              <string>C Antenna Transponder (C2)</string>
             </property>
-            <widget class="QWidget" name="layoutWidget">
+            <widget class="QWidget" name="">
              <property name="geometry">
               <rect>
-               <x>10</x>
-               <y>23</y>
+               <x>11</x>
+               <y>24</y>
                <width>172</width>
-               <height>98</height>
+               <height>97</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_23">
@@ -1810,16 +2013,45 @@
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="checkBoxFitC2">
-                <property name="font">
-                 <font>
-                  <pointsize>7</pointsize>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Fit</string>
-                </property>
-               </widget>
+               <layout class="QHBoxLayout" name="horizontalLayout_16">
+                <item>
+                 <widget class="QCheckBox" name="checkBoxFitC2">
+                  <property name="font">
+                   <font>
+                    <pointsize>7</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Fit</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_31">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButtonC2ToAll">
+                  <property name="font">
+                   <font>
+                    <pointsize>7</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Apply to All</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -1965,7 +2197,7 @@
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_13">
+         <layout class="QHBoxLayout" name="horizontalLayout_28">
           <item>
            <spacer name="horizontalSpacer_17">
             <property name="orientation">
@@ -1990,16 +2222,16 @@
             <property name="title">
              <string>R Sensor</string>
             </property>
-            <widget class="QWidget" name="layoutWidget">
+            <widget class="QWidget" name="">
              <property name="geometry">
               <rect>
-               <x>11</x>
-               <y>24</y>
+               <x>12</x>
+               <y>25</y>
                <width>172</width>
-               <height>98</height>
+               <height>97</height>
               </rect>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_14">
+             <layout class="QVBoxLayout" name="verticalLayout_17">
               <item>
                <widget class="QSlider" name="horizontalSliderRsensor">
                 <property name="minimum">
@@ -2014,16 +2246,45 @@
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="checkBoxFitRsensor">
-                <property name="font">
-                 <font>
-                  <pointsize>7</pointsize>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Fit</string>
-                </property>
-               </widget>
+               <layout class="QHBoxLayout" name="horizontalLayout_11">
+                <item>
+                 <widget class="QCheckBox" name="checkBoxFitRsensor">
+                  <property name="font">
+                   <font>
+                    <pointsize>7</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Fit</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_32">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButtonRsensorToAll">
+                  <property name="font">
+                   <font>
+                    <pointsize>7</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Apply to All</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -2177,16 +2438,16 @@
             <property name="title">
              <string>C Sensor</string>
             </property>
-            <widget class="QWidget" name="layoutWidget">
+            <widget class="QWidget" name="">
              <property name="geometry">
               <rect>
-               <x>10</x>
-               <y>23</y>
+               <x>11</x>
+               <y>24</y>
                <width>172</width>
-               <height>98</height>
+               <height>97</height>
               </rect>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_17">
+             <layout class="QVBoxLayout" name="verticalLayout_14">
               <item>
                <widget class="QSlider" name="horizontalSliderCsensor">
                 <property name="minimum">
@@ -2201,16 +2462,45 @@
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="checkBoxFitCsensor">
-                <property name="font">
-                 <font>
-                  <pointsize>7</pointsize>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Fit</string>
-                </property>
-               </widget>
+               <layout class="QHBoxLayout" name="horizontalLayout_7">
+                <item>
+                 <widget class="QCheckBox" name="checkBoxFitCsensor">
+                  <property name="font">
+                   <font>
+                    <pointsize>7</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Fit</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_33">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButtonCsensorToAll">
+                  <property name="font">
+                   <font>
+                    <pointsize>7</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Apply to All</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_12">

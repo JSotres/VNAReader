@@ -14,6 +14,7 @@ from .definition_class_single_antenna_spectrum import (
 from ..local_functions.definition_local_functions import (
         residualFittingSingleAntenna)
 
+
 class mySingleAntennaGUI(QMainWindow):
     def __init__(self, spectrum):
         super().__init__()
