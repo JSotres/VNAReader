@@ -16,7 +16,7 @@ The easiest way to run the program is within a virtual environment. First, creat
 python -m venv env
 ```
 
-and then activate it
+and then activate it:
 
 In Linux:
 ```
@@ -26,6 +26,11 @@ source env/bin/activate
 In Windows:
 ```
 .\env\Scripts\activate
+```
+
+Then, install packaged using requirements.txt, e.g.:
+```
+python -m pip install -r requirements.txt
 ```
 
 Then, for running the program:
