@@ -3,7 +3,9 @@ Definition of class to create the single antenna analysis GUI
 from the Qt5 created template from singleAntennaAnalysisGUI
 """
 
-from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import QMainWindow, QFileDialog
+import os
+import pandas as pd
 from matplotlib.backends.backend_qt5agg import (
     NavigationToolbar2QT as NavigationToolbar)
 from lmfit import minimize, Parameters
@@ -39,6 +41,8 @@ class mySingleAntennaGUI(QMainWindow):
             float(self.ui.lineEditValueQ.text())
         )
         # Declaration of methods for widgets in the GUI
+        self.ui.action_Export_as_csv.triggered.connect(self.exportCSV)
+        self.ui.action_Export_as_xlsx.triggered.connect(self.exportXLSX)
         self.ui.verticalSliderR0.valueChanged.connect(self.updateValueR0)
         self.ui.verticalSliderR1.valueChanged.connect(self.updateValueR1)
         self.ui.verticalSliderF0.valueChanged.connect(self.updateValueF0)
@@ -63,6 +67,41 @@ class mySingleAntennaGUI(QMainWindow):
         self.updateSlideBarQ()
         # Plot experimental and fitted data
         self.update_graph()
+
+    # --------- Method for exporting fitted parameters --------
+
+    def exportCSV(self):
+        
+        data = {"R0":[self.fittedSpectrum.getR0()],
+                "R1":[self.fittedSpectrum.getR1()],
+                "F0":[self.fittedSpectrum.getF0()],
+                "Q":[self.fittedSpectrum.getQ()],
+                "L1":[self.fittedSpectrum.getL1()],
+                "C1":[self.fittedSpectrum.getC1()]
+                }
+        df = pd.DataFrame(data)
+        caption = "Save File"
+        directory = os.getcwd()
+        name = QFileDialog.getSaveFileName(self, caption, directory, "*.csv")
+        df.to_csv(name[0], index=False)
+        
+
+    def exportXLSX(self):
+        
+        data = {"R0":[self.fittedSpectrum.getR0()],
+                "R1":[self.fittedSpectrum.getR1()],
+                "F0":[self.fittedSpectrum.getF0()],
+                "Q":[self.fittedSpectrum.getQ()],
+                "L1":[self.fittedSpectrum.getL1()],
+                "C1":[self.fittedSpectrum.getC1()]
+                }
+        df = pd.DataFrame(data)
+        caption = "Save File"
+        directory = os.getcwd()
+        name = QFileDialog.getSaveFileName(self, caption, directory, "*.xlsx")
+        df.to_excel(name[0], index=False)
+    
+        
 
     # --------- Methods for updating slide bar positions --------
     def updateSlideBarR0(self):

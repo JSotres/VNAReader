@@ -1094,8 +1094,26 @@
      <height>22</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuExpoer">
+    <property name="title">
+     <string>Export</string>
+    </property>
+    <addaction name="action_Export_as_csv"/>
+    <addaction name="action_Export_as_xlsx"/>
+   </widget>
+   <addaction name="menuExpoer"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="action_Export_as_csv">
+   <property name="text">
+    <string>As csv</string>
+   </property>
+  </action>
+  <action name="action_Export_as_xlsx">
+   <property name="text">
+    <string>As xlsx</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
