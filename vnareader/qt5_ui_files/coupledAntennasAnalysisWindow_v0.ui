@@ -423,7 +423,7 @@
             <property name="title">
              <string>R0</string>
             </property>
-            <widget class="QWidget" name="">
+            <widget class="QWidget" name="layoutWidget">
              <property name="geometry">
               <rect>
                <x>11</x>
@@ -639,7 +639,7 @@
             <property name="title">
              <string>R Antenna Reader (R1)</string>
             </property>
-            <widget class="QWidget" name="">
+            <widget class="QWidget" name="layoutWidget">
              <property name="geometry">
               <rect>
                <x>11</x>
@@ -872,7 +872,7 @@
             <property name="title">
              <string>L Antenna Reader (L1)</string>
             </property>
-            <widget class="QWidget" name="">
+            <widget class="QWidget" name="layoutWidget">
              <property name="geometry">
               <rect>
                <x>11</x>
@@ -1088,7 +1088,7 @@
             <property name="title">
              <string>C Antenna Reader (C1)</string>
             </property>
-            <widget class="QWidget" name="">
+            <widget class="QWidget" name="layoutWidget">
              <property name="geometry">
               <rect>
                <x>11</x>
@@ -1321,7 +1321,7 @@
             <property name="title">
              <string>k (coupling factor)</string>
             </property>
-            <widget class="QWidget" name="">
+            <widget class="QWidget" name="layoutWidget">
              <property name="geometry">
               <rect>
                <x>11</x>
@@ -1540,7 +1540,7 @@
             <property name="title">
              <string>R Antenna Transponder (R2)</string>
             </property>
-            <widget class="QWidget" name="">
+            <widget class="QWidget" name="layoutWidget">
              <property name="geometry">
               <rect>
                <x>11</x>
@@ -1773,7 +1773,7 @@
             <property name="title">
              <string>L Antenna Transponder (L2)</string>
             </property>
-            <widget class="QWidget" name="">
+            <widget class="QWidget" name="layoutWidget">
              <property name="geometry">
               <rect>
                <x>11</x>
@@ -1989,7 +1989,7 @@
             <property name="title">
              <string>C Antenna Transponder (C2)</string>
             </property>
-            <widget class="QWidget" name="">
+            <widget class="QWidget" name="layoutWidget">
              <property name="geometry">
               <rect>
                <x>11</x>
@@ -2222,7 +2222,7 @@
             <property name="title">
              <string>R Sensor</string>
             </property>
-            <widget class="QWidget" name="">
+            <widget class="QWidget" name="layoutWidget">
              <property name="geometry">
               <rect>
                <x>12</x>
@@ -2438,7 +2438,7 @@
             <property name="title">
              <string>C Sensor</string>
             </property>
-            <widget class="QWidget" name="">
+            <widget class="QWidget" name="layoutWidget">
              <property name="geometry">
               <rect>
                <x>11</x>
@@ -2673,8 +2673,26 @@
      <height>22</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuExport">
+    <property name="title">
+     <string>Export</string>
+    </property>
+    <addaction name="action_Export_as_csv"/>
+    <addaction name="action_Export_as_xlsx"/>
+   </widget>
+   <addaction name="menuExport"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="action_Export_as_csv">
+   <property name="text">
+    <string>As csv</string>
+   </property>
+  </action>
+  <action name="action_Export_as_xlsx">
+   <property name="text">
+    <string>As xlsx</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>

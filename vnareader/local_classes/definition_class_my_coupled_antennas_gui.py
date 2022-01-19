@@ -3,7 +3,9 @@ Definition of class to create the coupled antennas analysis GUI
 from the Qt5 created template from coupledAntennasAnalysisWindow_v0
 """
 
-from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import QMainWindow, QFileDialog
+import os
+import pandas as pd
 from matplotlib.backends.backend_qt5agg import (
     NavigationToolbar2QT as NavigationToolbar)
 from numpy import abs
@@ -164,6 +166,11 @@ class myCoupledAntennasGUI(QMainWindow):
         # Previous and Next File
         self.ui.pushButtonPreviousFile.clicked.connect(self.doPreviousFile)
         self.ui.pushButtonNextFile.clicked.connect(self.doNextFile)
+
+        # Actions for exporting data
+        self.ui.action_Export_as_csv.triggered.connect(self.exportCSV)
+        self.ui.action_Export_as_xlsx.triggered.connect(self.exportXLSX)
+        
 
         # Initialization of class attributes
         self.spectrum = spectrum
@@ -1056,6 +1063,49 @@ class myCoupledAntennasGUI(QMainWindow):
         self.fittedSpectrum[self.currentFileIndex].calculateS11()
         # Updates graphs
         self.update_graph()
+
+    # --------- Method for exporting fitted parameters --------
+
+    def exportCSV(self):
+        
+        data = {"R0":[self.fittedSpectrum[self.currentFileIndex].getR0()],
+                "R1":[self.fittedSpectrum[self.currentFileIndex].getR1()],
+                "L1":[self.fittedSpectrum[self.currentFileIndex].getL1()],
+                "C1":[self.fittedSpectrum[self.currentFileIndex].getC1()],
+                "R2":[self.fittedSpectrum[self.currentFileIndex].getR2()],
+                "L2":[self.fittedSpectrum[self.currentFileIndex].getL2()],
+                "C2":[self.fittedSpectrum[self.currentFileIndex].getC2()],
+                "Rsensor":[self.fittedSpectrum[self.currentFileIndex].getRsensor()],
+                "Csensor":[self.fittedSpectrum[self.currentFileIndex].getCsensor()],
+                "k":[self.fittedSpectrum[self.currentFileIndex].getk()]
+                }
+        df = pd.DataFrame(data)
+        caption = "Save File"
+        directory = os.getcwd()
+        name = QFileDialog.getSaveFileName(self, caption, directory, "*.csv")
+        df.to_csv(name[0], index=False)
+        
+
+    def exportXLSX(self):
+        
+        data = {"R0":[self.fittedSpectrum[self.currentFileIndex].getR0()],
+                "R1":[self.fittedSpectrum[self.currentFileIndex].getR1()],
+                "L1":[self.fittedSpectrum[self.currentFileIndex].getL1()],
+                "C1":[self.fittedSpectrum[self.currentFileIndex].getC1()],
+                "R2":[self.fittedSpectrum[self.currentFileIndex].getR2()],
+                "L2":[self.fittedSpectrum[self.currentFileIndex].getL2()],
+                "C2":[self.fittedSpectrum[self.currentFileIndex].getC2()],
+                "Rsensor":[self.fittedSpectrum[self.currentFileIndex].getRsensor()],
+                "Csensor":[self.fittedSpectrum[self.currentFileIndex].getCsensor()],
+                "k":[self.fittedSpectrum[self.currentFileIndex].getk()]
+                }
+        df = pd.DataFrame(data)
+        caption = "Save File"
+        directory = os.getcwd()
+        name = QFileDialog.getSaveFileName(self, caption, directory, "*.xlsx")
+        df.to_excel(name[0], index=False)
+    
+    
 
     ###########################################################################
     #      Function for plotting data
