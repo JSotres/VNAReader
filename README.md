@@ -1,38 +1,35 @@
 # VNAReader
 GUI for visualization and analysis of the reflection scattering parameter S11 registered in biosensors setups.
 
-The current version is designed for S11 values registered as Real and Imaginary components with a DG8-SAQ Vector Network Analyzer (VNA, SDR-Kits). Implementation to load data from different VNAs or formats should be easy. If you are interested, contact me.
+The current version is designed for S11 values registered as Real and Imaginary components with a DG8-SAQ Vector Network Analyzer (VNA, SDR-Kits). Implementation to load data from different VNAs or formats should be easy.
 
-So far, this is used just by my [group](https://www.mah.se/sotres). I will add a manual as soon as I have the time. For the time being, just have a look at the Quick Start section below.
+I will add more detailed instructions as soon as I have the time. For the time being, just have a look at the Quick Start section below.
 
 ## Requiremenets
-Tested with python 3.7
+Tested with python 3.7 - 3.9
 
-Requires:
-* numpy
-* matplotlib
-* PyQt5
-* lmfit
+The libraries required can be found in requirements.txt.
 
 ## Quick Start
-A virtual environment created with pipenv is provided.
-
-Just fork the repository, and in the main folder type:
-```python
-pipenv install --ignore-pipfile
+The easiest way to run the program is within a virtual environment. First, create it e.g.:
 ```
-If you do not have pipenv istalled, just do it:
-```python
-pip install pipenv
+python -m venv env
 ```
 
-Once the virtual environment has been created, just enter the pipenv shell i.e., type:
-```python
-pipenv shell
+and then activate it
+
+In Linux:
+```
+source env/bin/activate
 ```
 
-And then, for running the program type:
-```python
+In Windows:
+```
+.\env\Scripts\activate
+```
+
+Then, for running the program:
+```
 python -m vnareader
 ```
 
@@ -53,9 +50,6 @@ If the data corresponds to a single antenna connected to the VNA, you can analyz
 If the data corresponds instead to two coupled antennas, one of them being the reader antenna, and the other one being the tag antenna which is itself connected to a sensing element, you can analyze it by going to Analysis -> Coupled Antennas. This should take you to the following GUI:
 
 ![image](./Tutorial_Data/Figure4.png)
-
-
-
 
 ## Author
 [Javier Sotres](https://github.com/JSotres)
